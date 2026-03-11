@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpGrowth Ambvinet - AI Filmmaking Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent: #ef4444;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Logic */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+        }
+
+        .section-padding { padding: 60px 0; }
+        .text-center { text-align: center; }
+
+        /* Header */
+        header {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .agency-name {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .badges {
+            display: flex;
+            gap: 15px;
+        }
+
+        .badge {
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .price-tag {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* Date Section */
+        .date-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: -60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .date-info h3 { font-size: 1.8rem; color: var(--primary); }
+        
+        .timer-box {
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .timer-unit { text-align: center; }
+        .timer-unit span { display: block; font-size: 1.8rem; font-weight: 800; color: var(--secondary); }
+
+        /* Grid Sections */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; h-auto: 180px; object-fit: cover; }
+        .card-body { padding: 20px; }
+
+        /* Bonuses */
+        .bonus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .bonus-item {
+            background: #fffbeb;
+            border: 2px dashed var(--secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* About Host */
+        .host-section {
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .host-img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-bottom: 40px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover { color: white; }
+
+        /* App Section */
+        .app-section {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Policy Pages Styling */
+        .policy-content {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            margin: 40px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .date-container { grid-template-columns: 1fr; margin-top: 20px; }
+            .header-flex { flex-direction: column; gap: 10px; }
+            .host-section { flex-direction: column; text-align: center; }
+            .app-section { flex-direction: column; text-align: center; gap: 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN LANDING PAGE -->
+    <div id="home" class="page active">
+        <header>
+            <div class="container header-flex">
+                <div class="agency-name">UpGrowth Ambvinet</div>
+                <div class="badges">
+                    <div class="badge">🦈 Shark Tank India Funded</div>
+                    <div class="badge">✔️ ISO 9001 Certified</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>AI Video & Film Making Workshop</h1>
+                <p>Learn to create cinematic AI videos and films in just 3 hours.</p>
+                <div class="price-tag">Book your seat for just ₹123</div>
+                <button class="btn" onclick="scrollToBooking()">Book Your Slot at ₹123</button>
+            </div>
+        </section>
+
+        <div class="container" id="booking-section">
+            <div class="date-container">
+                <div class="date-info">
+                    <h3>23 March, Saturday</h3>
+                    <p><strong>Time:</strong> 7:00 PM – 10:00 PM</p>
+                    <p><strong>Duration:</strong> 3 Hours Live Workshop</p>
+                    <button class="btn" style="margin-top: 20px;">Book Now at ₹123</button>
+                </div>
+                <div class="timer-box" id="timer">
+                    <div class="timer-unit"><span id="days">00</span>Days</div>
+                    <div class="timer-unit"><span id="hours">00</span>Hrs</div>
+                    <div class="timer-unit"><span id="minutes">00</span>Min</div>
+                    <div class="timer-unit"><span id="seconds">00</span>Sec</div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section-padding">
+            <div class="container">
+                <h2 class="text-center" style="font-size: 2.5rem; margin-bottom: 40px;">Workshop Curriculum</h2>
+                <div class="grid-4">
+                    <div class="card">
+                        <img src="https://img.freepik.com/free-photo/movie-clapper-board-with-neon-lights_23-2149021815.jpg" alt="Intro">
+                        <div class="card-body">
+                            <h3>Introduction to AI Filmmaking</h3>
+                            <p>Understanding the landscape of AI in modern cinema.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://img.freepik.com/free-photo/view-futuristic-robotic-camera-working-industry_23-2150699049.jpg" alt="Tools">
+                        <div class="card-body">
+                            <h3>AI Tools for Video Creation</h3>
+                            <p>Mastering Runway, Pika, and Midjourney for video.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://img.freepik.com/free-photo/cyberpunk-concept-with-neon-lights_23-2150038437.jpg" alt="Cinematic">
+                        <div class="card-body">
+                            <h3>Creating Cinematic Scenes</h3>
+                            <p>How to prompt for high-end cinematic visuals.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://img.freepik.com/free-photo/video-editor-editing-movie_23-2148443224.jpg" alt="Editing">
+                        <div class="card-body">
+                            <h3>Editing AI Videos Pro</h3>
+                            <p>Workflow for professional assembly and sound design.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 40px;">
+                    <button class="btn">Start Your AI Journey @ ₹123</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding" style="background: #f1f5f9;">
+            <div class="container">
+                <h2 class="text-center">🎁 Exclusive Bonuses (Worth ₹5000)</h2>
+                <div class="bonus-grid">
+                    <div class="bonus-item">
+                        <img src="https://api.placeholder.com/100/100?text=AI+Prompts" alt="Guide" style="border-radius: 50%; margin-bottom: 10px;">
+                        <h4>AI Video Prompt Guide</h4>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="https://api.placeholder.com/100/100?text=Presets" alt="Presets" style="border-radius: 50%; margin-bottom: 10px;">
+                        <h4>AI Cinematic Presets</h4>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="https://api.placeholder.com/100/100?text=Scripts" alt="Scripts" style="border-radius: 50%; margin-bottom: 10px;">
+                        <h4>Viral Video Templates</h4>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="https://api.placeholder.com/100/100?text=Tools" alt="Tools" style="border-radius: 50%; margin-bottom: 10px;">
+                        <h4>Ultimate AI Tools List</h4>
+                    </div>
+                    <div class="bonus-item">
+                        <img src="https://api.placeholder.com/100/100?text=Money" alt="Guide" style="border-radius: 50%; margin-bottom: 10px;">
+                        <h4>Monetization Secrets</h4>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn">Grab Bonuses @ ₹123</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container text-center">
+                <h2>Get Certified</h2>
+                <p style="margin-bottom: 30px;">You will receive a Certificate of Completion after finishing the workshop.</p>
+                <div style="max-width: 600px; margin: 0 auto; border: 10px solid #ddd; padding: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: var(--primary); font-size: 2rem;">CERTIFICATE</h3>
+                    <p>OF COMPLETION</p>
+                    <div style="height: 2px; background: #eee; margin: 20px 0;"></div>
+                    <p>Presented to</p>
+                    <h4 style="font-size: 1.5rem; margin: 10px 0;">[YOUR NAME]</h4>
+                    <p>For completing the AI Filmmaking Masterclass</p>
+                    <p style="margin-top: 30px; font-weight: bold;">UpGrowth Ambvinet</p>
+                </div>
+                <button class="btn" style="margin-top: 40px;">Register to Get Certificate</button>
+            </div>
+        </section>
+
+        <section class="section-padding" style="background: var(--dark); color: white;">
+            <div class="container host-section">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Host" class="host-img">
+                <div>
+                    <h4 style="color: var(--secondary); font-size: 1.2rem;">Meet Your Host</h4>
+                    <h2 style="font-size: 2.5rem;">Expert AI Creator</h2>
+                    <p style="margin: 20px 0; font-size: 1.1rem;">Host is an AI creator and video expert who teaches how to create cinematic AI videos and build income using AI tools. With over 10 years in the film industry, they bridge the gap between imagination and technology.</p>
+                    <button class="btn">Book My Seat</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding" style="background: #f8fafc;">
+            <div class="container">
+                <h2 class="text-center">Practical 100% Learning</h2>
+                <div style="display: flex; align-items: center; gap: 40px; margin-top: 40px;" class="host-section">
+                   <div style="flex: 1;">
+                        <p style="font-size: 1.2rem; margin-bottom: 20px;">"This workshop is 100% practical, not theoretical."</p>
+                        <ul style="list-style: none;">
+                            <li style="margin-bottom: 10px;">✅ AI Video Creation from Scratch</li>
+                            <li style="margin-bottom: 10px;">✅ Cinematic AI Prompting</li>
+                            <li style="margin-bottom: 10px;">✅ AI Storytelling Techniques</li>
+                            <li style="margin-bottom: 10px;">✅ AI Editing Workflow</li>
+                            <li style="margin-bottom: 10px;">✅ How to Create Viral AI Content</li>
+                        </ul>
+                   </div>
+                   <div style="flex: 1;">
+                        <img src="https://img.freepik.com/free-photo/man-working-with-digital-tablet-office_23-2148780511.jpg" style="width: 100%; border-radius: 20px;" alt="Practical">
+                   </div>
+                </div>
+                <div class="text-center" style="margin-top: 40px;">
+                    <button class="btn">Join Practical Session</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container">
+                <div class="app-section">
+                    <div>
+                        <h2>Download Our App</h2>
+                        <p>Download our app and get ₹1000 free credits instantly!</p>
+                        <button class="btn" style="background: white; color: var(--primary); margin-top: 20px;" onclick="window.open('https://play.google.com/store', '_blank')">Download App</button>
+                    </div>
+                    <img src="https://img.freepik.com/free-psd/smartphone-mockup_1310-812.jpg" alt="App" style="height: 300px; border-radius: 20px;">
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div>
+                        <h3>UpGrowth Ambvinet</h3>
+                        <p style="color: #94a3b8; margin-top: 10px;">Empowering creators with AI tools.</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#" onclick="showPage('home')">Home</a>
+                        <a href="#" onclick="showPage('privacy')">Privacy Policy</a>
+                        <a href="#" onclick="showPage('refund')">Refund Policy</a>
+                    </div>
+                </div>
+                <div class="text-center" style="border-top: 1px solid #334155; padding-top: 20px; font-size: 0.9rem; color: #94a3b8;">
+                    © 2026 UpGrowth Ambvinet. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PRIVACY POLICY PAGE -->
+    <div id="privacy" class="page">
+        <div class="container">
+            <div class="policy-content">
+                <h1>Privacy Policy</h1>
+                <p style="margin: 20px 0;">Your privacy is important to us. It is UpGrowth Ambvinet's policy to respect your privacy regarding any information we may collect from you across our website and app.</p>
+                <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.</p>
+                <button class="btn" style="margin-top: 30px;" onclick="showPage('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REFUND POLICY PAGE -->
+    <div id="refund" class="page">
+        <div class="container">
+            <div class="policy-content">
+                <h1>Refund Policy</h1>
+                <p style="margin: 20px 0;">We want you to be satisfied with our workshop. However, please note the following conditions for refunds:</p>
+                <ul>
+                    <li>Refunds are only available if requested at least 48 hours before the workshop starts.</li>
+                    <li>No refunds will be provided for attendees who fail to show up for the live session.</li>
+                    <li>Digital assets and bonuses provided are non-refundable.</li>
+                </ul>
+                <button class="btn" style="margin-top: 30px;" onclick="showPage('home')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Logic
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Countdown Timer
+        const targetDate = new Date("March 23, 2026 19:00:00").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = "Workshop Started!";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Scroll to Booking
+        function scrollToBooking() {
+            document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
