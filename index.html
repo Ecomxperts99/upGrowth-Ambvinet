@@ -3,538 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UpGrowth Ambvinet - AI Filmmaking Workshop</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>upGrowth Ambvinet - AI Film Making Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #f59e0b;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --accent: #ef4444;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            /* Colors inspired by upgrowthambvinet.com */
+            --primary-blue: #003399; /* Main Brand Blue */
+            --accent-orange: #f37021; /* Accent Orange */
+            --text-dark: #1a1a1a;
+            --bg-light: #ffffff;
+            --bg-muted: #f4f7fa;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
         body {
-            background-color: var(--light);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
         }
-
-        /* Navigation Logic */
-        .page { display: none; }
-        .page.active { display: block; }
-
-        /* Utility Classes */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background-color: var(--secondary);
+        .cta-button {
+            background-color: var(--accent-orange);
             color: white;
-            text-decoration: none;
             font-weight: 700;
-            border-radius: 50px;
-            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border-radius: 8px; /* Slightly more professional square-round */
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-            font-size: 1.1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
-        }
-
-        .section-padding { padding: 60px 0; }
-        .text-center { text-align: center; }
-
-        /* Header */
-        header {
-            background: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .agency-name {
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: var(--primary);
-        }
-
-        .badges {
-            display: flex;
-            gap: 15px;
-        }
-
-        .badge {
-            background: #f1f5f9;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Hero */
-        .hero {
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(243, 112, 33, 0.3);
             text-align: center;
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-            line-height: 1.2;
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background-color: #d95d10;
+            box-shadow: 0 6px 20px rgba(243, 112, 33, 0.4);
         }
-
-        .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary-blue);
         }
-
-        .price-tag {
-            font-size: 1.8rem;
-            color: var(--secondary);
-            font-weight: 700;
-            margin-bottom: 30px;
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
         }
-
-        /* Date Section */
-        .date-container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: -60px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: center;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-
-        .date-info h3 { font-size: 1.8rem; color: var(--primary); }
-        
-        .timer-box {
-            background: var(--dark);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-around;
+        .policy-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-light);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
         }
-
-        .timer-unit { text-align: center; }
-        .timer-unit span { display: block; font-size: 1.8rem; font-weight: 800; color: var(--secondary); }
-
-        /* Grid Sections */
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+        .active-page {
+            display: block;
         }
-
         .card {
             background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; h-auto: 180px; object-fit: cover; }
-        .card-body { padding: 20px; }
-
-        /* Bonuses */
-        .bonus-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-
-        .bonus-item {
-            background: #fffbeb;
-            border: 2px dashed var(--secondary);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* About Host */
-        .host-section {
-            background: white;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 40px;
-            gap: 40px;
-        }
-
-        .host-img {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid var(--primary);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-bottom: 40px;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .footer-links a:hover { color: white; }
-
-        /* App Section */
-        .app-section {
-            background: var(--primary);
-            color: white;
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Policy Pages Styling */
-        .policy-content {
-            background: white;
-            padding: 60px;
-            border-radius: 20px;
-            margin: 40px 0;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .date-container { grid-template-columns: 1fr; margin-top: 20px; }
-            .header-flex { flex-direction: column; gap: 10px; }
-            .host-section { flex-direction: column; text-align: center; }
-            .app-section { flex-direction: column; text-align: center; gap: 20px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+        .text-gradient {
+            background: linear-gradient(to right, var(--primary-blue), #0055ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <!-- MAIN LANDING PAGE -->
-    <div id="home" class="page active">
-        <header>
-            <div class="container header-flex">
-                <div class="agency-name">UpGrowth Ambvinet</div>
-                <div class="badges">
-                    <div class="badge">🦈 Shark Tank India Funded</div>
-                    <div class="badge">✔️ ISO 9001 Certified</div>
-                </div>
+    <!-- Sticky Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav py-4 shadow-sm">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight text-blue-900">upGrowth Ambvinet</h1>
+            <div class="hidden md:flex gap-4 text-[10px] md:text-xs uppercase tracking-widest font-semibold">
+                <span class="bg-blue-800 text-white px-3 py-1 rounded">Shark Tank India Featured</span>
+                <span class="bg-orange-600 text-white px-3 py-1 rounded">ISO Certified</span>
             </div>
-        </header>
+        </div>
+    </nav>
 
-        <section class="hero">
-            <div class="container">
-                <h1>AI Video & Film Making Workshop</h1>
-                <p>Learn to create cinematic AI videos and films in just 3 hours.</p>
-                <div class="price-tag">Book your seat for just ₹123</div>
-                <button class="btn" onclick="scrollToBooking()">Book Your Slot at ₹123</button>
-            </div>
-        </section>
-
-        <div class="container" id="booking-section">
-            <div class="date-container">
-                <div class="date-info">
-                    <h3>23 March, Saturday</h3>
-                    <p><strong>Time:</strong> 7:00 PM – 10:00 PM</p>
-                    <p><strong>Duration:</strong> 3 Hours Live Workshop</p>
-                    <button class="btn" style="margin-top: 20px;">Book Now at ₹123</button>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4 bg-slate-50">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-blue-900">
+                        Learn AI Film & Movie Making in Just <span class="text-orange-600">3 Hours</span>
+                    </h2>
+                    <p class="text-xl text-slate-600 mb-8 font-medium">
+                        Live Practical Workshop – Create AI Videos, Films and UGC Content Easily.
+                    </p>
+                    <div class="bg-white p-6 rounded-2xl mb-8 border border-slate-200 shadow-xl">
+                        <div class="grid grid-cols-2 gap-4 mb-4 border-b pb-4 border-slate-100">
+                            <div><p class="text-slate-400 text-sm uppercase">Date</p><p class="font-bold text-blue-900">23 March (Saturday)</p></div>
+                            <div><p class="text-slate-400 text-sm uppercase">Time</p><p class="font-bold text-blue-900">7:00 PM - 10:00 PM</p></div>
+                        </div>
+                        <div class="text-3xl font-bold text-blue-900 mb-4">Price: <span class="text-orange-600">₹123</span> <span class="text-sm font-normal text-slate-400 line-through">₹1,999</span></div>
+                        
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                            <p class="text-orange-700 text-sm font-bold mb-1 uppercase tracking-tighter">⚡ Limited Seats Available – Offer Ends In:</p>
+                            <div id="timer" class="text-2xl font-mono font-bold text-blue-900">15:00</div>
+                        </div>
+                    </div>
+                    <a href="#booking" class="cta-button w-full md:w-auto">Book Your Slot Now</a>
                 </div>
-                <div class="timer-box" id="timer">
-                    <div class="timer-unit"><span id="days">00</span>Days</div>
-                    <div class="timer-unit"><span id="hours">00</span>Hrs</div>
-                    <div class="timer-unit"><span id="minutes">00</span>Min</div>
-                    <div class="timer-unit"><span id="seconds">00</span>Sec</div>
+                <div class="order-1 md:order-2">
+                    <div class="relative">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-orange-500 rounded-3xl blur opacity-25"></div>
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800" 
+                             alt="AI Film Making" class="relative rounded-3xl shadow-2xl animate-float border-4 border-white">
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <section class="section-padding">
-            <div class="container">
-                <h2 class="text-center" style="font-size: 2.5rem; margin-bottom: 40px;">Workshop Curriculum</h2>
-                <div class="grid-4">
-                    <div class="card">
-                        <img src="https://img.freepik.com/free-photo/movie-clapper-board-with-neon-lights_23-2149021815.jpg" alt="Intro">
-                        <div class="card-body">
-                            <h3>Introduction to AI Filmmaking</h3>
-                            <p>Understanding the landscape of AI in modern cinema.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://img.freepik.com/free-photo/view-futuristic-robotic-camera-working-industry_23-2150699049.jpg" alt="Tools">
-                        <div class="card-body">
-                            <h3>AI Tools for Video Creation</h3>
-                            <p>Mastering Runway, Pika, and Midjourney for video.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://img.freepik.com/free-photo/cyberpunk-concept-with-neon-lights_23-2150038437.jpg" alt="Cinematic">
-                        <div class="card-body">
-                            <h3>Creating Cinematic Scenes</h3>
-                            <p>How to prompt for high-end cinematic visuals.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="https://img.freepik.com/free-photo/video-editor-editing-movie_23-2148443224.jpg" alt="Editing">
-                        <div class="card-body">
-                            <h3>Editing AI Videos Pro</h3>
-                            <p>Workflow for professional assembly and sound design.</p>
-                        </div>
-                    </div>
+    <!-- Workshop Details -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <h3 class="text-3xl font-bold text-center mb-12 text-blue-900">What Will You Learn in This Workshop?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card p-6 rounded-2xl text-center">
+                    <img src="https://images.unsplash.com/photo-1633177317976-3f9bc45e1d1d?auto=format&fit=crop&q=80&w=300" class="w-full h-40 object-cover rounded-xl mb-4" alt="AI Video">
+                    <h4 class="text-xl font-bold mb-2 text-blue-900">AI Video Generation</h4>
+                    <p class="text-slate-500">Convert any idea into a stunning video in seconds using premium AI models.</p>
                 </div>
-                <div class="text-center" style="margin-top: 40px;">
-                    <button class="btn">Start Your AI Journey @ ₹123</button>
+                <div class="card p-6 rounded-2xl text-center">
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=300" class="w-full h-40 object-cover rounded-xl mb-4" alt="Cinema">
+                    <h4 class="text-xl font-bold mb-2 text-blue-900">Cinematic Tools</h4>
+                    <p class="text-slate-500">Master the top industry-standard AI apps to create professional-grade visuals.</p>
+                </div>
+                <div class="card p-6 rounded-2xl text-center">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=300" class="w-full h-40 object-cover rounded-xl mb-4" alt="UGC">
+                    <h4 class="text-xl font-bold mb-2 text-blue-900">UGC Ad Creation</h4>
+                    <p class="text-slate-500">Create viral-ready ads for businesses that drive real growth and engagement.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-padding" style="background: #f1f5f9;">
-            <div class="container">
-                <h2 class="text-center">🎁 Exclusive Bonuses (Worth ₹5000)</h2>
-                <div class="bonus-grid">
-                    <div class="bonus-item">
-                        <img src="https://api.placeholder.com/100/100?text=AI+Prompts" alt="Guide" style="border-radius: 50%; margin-bottom: 10px;">
-                        <h4>AI Video Prompt Guide</h4>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://api.placeholder.com/100/100?text=Presets" alt="Presets" style="border-radius: 50%; margin-bottom: 10px;">
-                        <h4>AI Cinematic Presets</h4>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://api.placeholder.com/100/100?text=Scripts" alt="Scripts" style="border-radius: 50%; margin-bottom: 10px;">
-                        <h4>Viral Video Templates</h4>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://api.placeholder.com/100/100?text=Tools" alt="Tools" style="border-radius: 50%; margin-bottom: 10px;">
-                        <h4>Ultimate AI Tools List</h4>
-                    </div>
-                    <div class="bonus-item">
-                        <img src="https://api.placeholder.com/100/100?text=Money" alt="Guide" style="border-radius: 50%; margin-bottom: 10px;">
-                        <h4>Monetization Secrets</h4>
-                    </div>
+    <!-- Bonuses -->
+    <section class="py-20 px-4 bg-blue-900 text-white">
+        <div class="container mx-auto max-w-5xl">
+            <h3 class="text-3xl font-bold text-center mb-4 text-orange-400">Exclusive Bonuses You Get</h3>
+            <p class="text-center text-blue-100 mb-12">(Total Value ₹15,000+ Absolutely Free)</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
+                    <div class="text-3xl mb-4 text-orange-400">📚</div>
+                    <h5 class="font-bold text-lg mb-2">AI Video Prompt Library</h5>
+                    <p class="text-sm text-blue-100 opacity-80">Ready-made prompts for professional results.</p>
                 </div>
-                <div class="text-center">
-                    <button class="btn">Grab Bonuses @ ₹123</button>
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
+                    <div class="text-3xl mb-4 text-orange-400">🎬</div>
+                    <h5 class="font-bold text-lg mb-2">Cinematic Templates</h5>
+                    <p class="text-sm text-blue-100 opacity-80">Special templates to speed up your editing.</p>
+                </div>
+                <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
+                    <div class="text-3xl mb-4 text-orange-400">🧰</div>
+                    <h5 class="font-bold text-lg mb-2">AI Video Editing Toolkit</h5>
+                    <p class="text-sm text-blue-100 opacity-80">List of essential tools for best quality.</p>
                 </div>
             </div>
-        </section>
-
-        <section class="section-padding">
-            <div class="container text-center">
-                <h2>Get Certified</h2>
-                <p style="margin-bottom: 30px;">You will receive a Certificate of Completion after finishing the workshop.</p>
-                <div style="max-width: 600px; margin: 0 auto; border: 10px solid #ddd; padding: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                    <h3 style="color: var(--primary); font-size: 2rem;">CERTIFICATE</h3>
-                    <p>OF COMPLETION</p>
-                    <div style="height: 2px; background: #eee; margin: 20px 0;"></div>
-                    <p>Presented to</p>
-                    <h4 style="font-size: 1.5rem; margin: 10px 0;">[YOUR NAME]</h4>
-                    <p>For completing the AI Filmmaking Masterclass</p>
-                    <p style="margin-top: 30px; font-weight: bold;">UpGrowth Ambvinet</p>
-                </div>
-                <button class="btn" style="margin-top: 40px;">Register to Get Certificate</button>
+            <div class="mt-12 text-center">
+                <a href="#booking" class="cta-button">Grab These Bonuses Now</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-padding" style="background: var(--dark); color: white;">
-            <div class="container host-section">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Host" class="host-img">
-                <div>
-                    <h4 style="color: var(--secondary); font-size: 1.2rem;">Meet Your Host</h4>
-                    <h2 style="font-size: 2.5rem;">Expert AI Creator</h2>
-                    <p style="margin: 20px 0; font-size: 1.1rem;">Host is an AI creator and video expert who teaches how to create cinematic AI videos and build income using AI tools. With over 10 years in the film industry, they bridge the gap between imagination and technology.</p>
-                    <button class="btn">Book My Seat</button>
+    <!-- Practical Training -->
+    <section class="py-16 bg-orange-600 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold mb-8 italic">100% Practical Training</h3>
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="flex items-start gap-4 bg-orange-700/30 p-4 rounded-xl">
+                    <div class="text-2xl font-bold opacity-50">01</div>
+                    <p class="font-semibold">No boring theory - we jump straight into the tools.</p>
                 </div>
-            </div>
-        </section>
-
-        <section class="section-padding" style="background: #f8fafc;">
-            <div class="container">
-                <h2 class="text-center">Practical 100% Learning</h2>
-                <div style="display: flex; align-items: center; gap: 40px; margin-top: 40px;" class="host-section">
-                   <div style="flex: 1;">
-                        <p style="font-size: 1.2rem; margin-bottom: 20px;">"This workshop is 100% practical, not theoretical."</p>
-                        <ul style="list-style: none;">
-                            <li style="margin-bottom: 10px;">✅ AI Video Creation from Scratch</li>
-                            <li style="margin-bottom: 10px;">✅ Cinematic AI Prompting</li>
-                            <li style="margin-bottom: 10px;">✅ AI Storytelling Techniques</li>
-                            <li style="margin-bottom: 10px;">✅ AI Editing Workflow</li>
-                            <li style="margin-bottom: 10px;">✅ How to Create Viral AI Content</li>
-                        </ul>
-                   </div>
-                   <div style="flex: 1;">
-                        <img src="https://img.freepik.com/free-photo/man-working-with-digital-tablet-office_23-2148780511.jpg" style="width: 100%; border-radius: 20px;" alt="Practical">
-                   </div>
+                <div class="flex items-start gap-4 bg-orange-700/30 p-4 rounded-xl">
+                    <div class="text-2xl font-bold opacity-50">02</div>
+                    <p class="font-semibold">Live interaction with the mentor during the session.</p>
                 </div>
-                <div class="text-center" style="margin-top: 40px;">
-                    <button class="btn">Join Practical Session</button>
+                <div class="flex items-start gap-4 bg-orange-700/30 p-4 rounded-xl">
+                    <div class="text-2xl font-bold opacity-50">03</div>
+                    <p class="font-semibold">Step-by-step guidance for non-technical creators.</p>
+                </div>
+                <div class="flex items-start gap-4 bg-orange-700/30 p-4 rounded-xl">
+                    <div class="text-2xl font-bold opacity-50">04</div>
+                    <p class="font-semibold">Finish the class with your own first AI film.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section-padding">
-            <div class="container">
-                <div class="app-section">
-                    <div>
-                        <h2>Download Our App</h2>
-                        <p>Download our app and get ₹1000 free credits instantly!</p>
-                        <button class="btn" style="background: white; color: var(--primary); margin-top: 20px;" onclick="window.open('https://play.google.com/store', '_blank')">Download App</button>
-                    </div>
-                    <img src="https://img.freepik.com/free-psd/smartphone-mockup_1310-812.jpg" alt="App" style="height: 300px; border-radius: 20px;">
+    <!-- Certificate Section -->
+    <section class="py-20 px-4 bg-slate-50">
+        <div class="container mx-auto max-w-5xl bg-white p-10 rounded-3xl border border-slate-200 shadow-xl">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="flex-1">
+                    <h3 class="text-3xl font-bold mb-4 text-blue-900">Professional Certification</h3>
+                    <p class="text-slate-600 mb-6 text-lg">Validate your new skills with an upGrowth Ambvinet certificate, recognized by our 500+ industry partners.</p>
+                    <a href="#booking" class="cta-button">Claim Your Certificate</a>
                 </div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="container">
-                <div class="footer-grid">
-                    <div>
-                        <h3>UpGrowth Ambvinet</h3>
-                        <p style="color: #94a3b8; margin-top: 10px;">Empowering creators with AI tools.</p>
-                    </div>
-                    <div class="footer-links">
-                        <a href="#" onclick="showPage('home')">Home</a>
-                        <a href="#" onclick="showPage('privacy')">Privacy Policy</a>
-                        <a href="#" onclick="showPage('refund')">Refund Policy</a>
+                <div class="flex-1">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-blue-600/10 rotate-3 rounded-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1589330694653-ded6df03f754?auto=format&fit=crop&q=80&w=600" alt="Certificate" class="relative rounded-lg shadow-xl -rotate-2 border-8 border-white">
                     </div>
                 </div>
-                <div class="text-center" style="border-top: 1px solid #334155; padding-top: 20px; font-size: 0.9rem; color: #94a3b8;">
-                    © 2026 UpGrowth Ambvinet. All Rights Reserved.
+            </div>
+        </div>
+    </section>
+
+    <!-- About Host -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl flex flex-col md:flex-row items-center gap-10">
+            <div class="w-48 h-48 flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" alt="Host" class="w-full h-full rounded-full border-8 border-slate-100 object-cover shadow-lg">
+            </div>
+            <div>
+                <h3 class="text-3xl font-bold mb-2 text-blue-900">Meet Your Mentor: <span class="text-orange-600">Aryan Sharma</span></h3>
+                <p class="text-blue-700 font-bold mb-4 text-lg">AI Content Strategist & Filmmaker</p>
+                <p class="text-slate-600 text-lg leading-relaxed">Aryan has empowered 10,000+ students and worked with Fortune 500 companies to integrate AI into their creative workflows. He simplifies complex technology into actionable steps.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-24 px-4 bg-blue-900">
+        <div class="container mx-auto max-w-xl text-center">
+            <div class="bg-white p-10 rounded-3xl shadow-2xl">
+                <h3 class="text-3xl font-bold mb-4 text-blue-900 uppercase">Limited Time Offer</h3>
+                <div class="text-6xl font-black text-orange-600 mb-2">₹123</div>
+                <p class="text-slate-400 font-medium mb-8">Early Bird Discount (Regular ₹1,999)</p>
+                <button class="cta-button w-full text-xl py-6 rounded-xl" onclick="alert('Proceeding to Secure Payment Gateway...')">Enroll in the Workshop</button>
+                <div class="mt-8 pt-8 border-t border-slate-100">
+                    <p class="text-xs text-slate-400 uppercase font-bold tracking-widest mb-4">Secure Payment Options</p>
+                    <div class="flex items-center justify-center gap-6 opacity-60">
+                        <img src="https://img.icons8.com/color/48/visa.png" class="h-8" alt="Visa">
+                        <img src="https://img.icons8.com/color/48/mastercard.png" class="h-8" alt="Mastercard">
+                        <img src="https://img.icons8.com/color/48/upi.png" class="h-8" alt="UPI">
+                    </div>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
 
-    <!-- PRIVACY POLICY PAGE -->
-    <div id="privacy" class="page">
-        <div class="container">
-            <div class="policy-content">
-                <h1>Privacy Policy</h1>
-                <p style="margin: 20px 0;">Your privacy is important to us. It is UpGrowth Ambvinet's policy to respect your privacy regarding any information we may collect from you across our website and app.</p>
-                <p>We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.</p>
-                <button class="btn" style="margin-top: 30px;" onclick="showPage('home')">Back to Home</button>
+    <!-- Footer -->
+    <footer class="py-16 bg-slate-50 border-t border-slate-200">
+        <div class="container mx-auto px-4 text-center">
+            <h4 class="font-black text-2xl text-blue-900 mb-8">upGrowth Ambvinet</h4>
+            <div class="flex flex-wrap justify-center gap-8 text-slate-500 font-bold text-sm mb-10">
+                <a href="javascript:void(0)" class="hover:text-orange-600 transition" onclick="openPolicy('privacy')">Privacy Policy</a>
+                <a href="javascript:void(0)" class="hover:text-orange-600 transition" onclick="openPolicy('refund')">Refund Policy</a>
+                <a href="javascript:void(0)" class="hover:text-orange-600 transition" onclick="openPolicy('terms')">Terms & Conditions</a>
             </div>
+            <p class="text-slate-400 text-xs tracking-widest">© 2024 UPGROWTH AMBVINET. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- Policy Pages (Hidden by default) -->
+    <div id="privacy" class="policy-page">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-blue-900">Privacy Policy</h2>
+            <div class="prose prose-slate">
+                <p>We take your privacy seriously. Data collected during registration is used solely for workshop communication and personalized learning experiences.</p>
+            </div>
+            <button onclick="closePolicy()" class="mt-10 bg-blue-900 text-white px-8 py-3 rounded-lg font-bold">Back to Home</button>
         </div>
     </div>
 
-    <!-- REFUND POLICY PAGE -->
-    <div id="refund" class="page">
-        <div class="container">
-            <div class="policy-content">
-                <h1>Refund Policy</h1>
-                <p style="margin: 20px 0;">We want you to be satisfied with our workshop. However, please note the following conditions for refunds:</p>
-                <ul>
-                    <li>Refunds are only available if requested at least 48 hours before the workshop starts.</li>
-                    <li>No refunds will be provided for attendees who fail to show up for the live session.</li>
-                    <li>Digital assets and bonuses provided are non-refundable.</li>
-                </ul>
-                <button class="btn" style="margin-top: 30px;" onclick="showPage('home')">Back to Home</button>
+    <div id="refund" class="policy-page">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-blue-900">Refund Policy</h2>
+            <div class="prose prose-slate">
+                <p>We offer a 100% satisfaction guarantee. If you are not satisfied with the content within the first 30 minutes of the live session, you are eligible for a full refund.</p>
             </div>
+            <button onclick="closePolicy()" class="mt-10 bg-blue-900 text-white px-8 py-3 rounded-lg font-bold">Back to Home</button>
+        </div>
+    </div>
+
+    <div id="terms" class="policy-page">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-blue-900">Terms & Conditions</h2>
+            <div class="prose prose-slate">
+                <p>Registration is non-transferable. Recording of the live session is prohibited to protect proprietary AI workflows shared during the class.</p>
+            </div>
+            <button onclick="closePolicy()" class="mt-10 bg-blue-900 text-white px-8 py-3 rounded-lg font-bold">Back to Home</button>
         </div>
     </div>
 
     <script>
-        // Navigation Logic
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
-
         // Countdown Timer
-        const targetDate = new Date("March 23, 2026 19:00:00").getTime();
-
-        function updateTimer() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                document.getElementById('timer').innerHTML = "Workshop Started!";
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ":" + seconds;
+                if (--timer < 0) timer = duration;
+            }, 1000);
         }
 
-        setInterval(updateTimer, 1000);
-        updateTimer();
+        window.onload = function () {
+            const fifteenMinutes = 60 * 15;
+            const display = document.querySelector('#timer');
+            startTimer(fifteenMinutes, display);
+        };
 
-        // Scroll to Booking
-        function scrollToBooking() {
-            document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
+        function openPolicy(id) {
+            document.getElementById(id).classList.add('active-page');
+            document.body.style.overflow = 'hidden';
         }
+
+        function closePolicy() {
+            const pages = document.querySelectorAll('.policy-page');
+            pages.forEach(p => p.classList.remove('active-page'));
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     </script>
 </body>
 </html>
